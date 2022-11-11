@@ -25,10 +25,12 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
+            'surname' => 'required|max:255',
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/|max:255',
-            'surname' => 'required|max:255',
-            'birthDate' => 'required|before:today'
+            'birthDate' => 'required|before:today',
+            'subscriptionId' => 'required|integer|exists:subscriptions,id',
+            'profilePicture' => 'required|image|max:5000',
         ];
     }
 
@@ -38,7 +40,7 @@ class CreateUserRequest extends FormRequest
             'password.required' => 'Password must be at least 8 characters long and contain at least one letter and one number.',
             'password.regex' => 'Password must be at least 8 characters long and contain at least one letter and one number.',
             'email.unique' => 'Email is already registered.',
-            'email.email' => 'Email must be a valid email.'
+            'email.email' => 'Email must be a valid email.',
         ];
     }
 }
