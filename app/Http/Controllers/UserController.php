@@ -51,9 +51,16 @@ class UserController extends Controller
 
         return [
             'result' => 'Succesfully logged in.',
-            'subscriptionId' => User::firstWhere('id', Auth::id())->client->subscription_id,
+            'name' => Auth::user()->getFullName(),
+            'email' => Auth::user()->email,
             'subscription' => Auth::user()->client->subscription->type,
+            'showAds' =>  $this->seesAds(),
         ];
+    }
+
+    private function seesAds()
+    {
+        return Auth::user()->client->subscription->type == 'free';
     }
 
     public function update(UpdateUserRequest $request)
