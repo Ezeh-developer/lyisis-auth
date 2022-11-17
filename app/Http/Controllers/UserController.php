@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthenticateUserRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Models\Client;
 use App\Models\User;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -40,13 +41,8 @@ class UserController extends Controller
         ];
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(AuthenticateUserRequest $request)
     {
-        $validation = $this->validateAuthentication($request);
-        if ($validation !== true) {
-            return $validation;
-        }
-
         if (!Auth::attempt($request->only('email', 'password'), $request->post('remember'))) {
             return [
                 'result' => 'Wrong password or email.',
@@ -90,17 +86,5 @@ class UserController extends Controller
         ];
     }
 
-    private function validateAuthentication($request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users',
-            'password' => 'required',
-            'remember' => 'required|boolean',
-        ]);
-        if ($validator->fails()) {
-            return $validator->errors()->toJson();
-        }
-
-        return true;
-    }
+    
 }
