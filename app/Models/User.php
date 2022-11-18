@@ -17,6 +17,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    protected $with = ['client'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -48,7 +50,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function client() {
+    public function client()
+    {
         return $this->belongsTo(Client::class);
     }
 

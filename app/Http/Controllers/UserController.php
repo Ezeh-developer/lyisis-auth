@@ -50,7 +50,7 @@ class UserController extends Controller
         }
 
         return [
-            'result' => 'Succesfully logged in.',
+            'result' => 'Ok',
             'name' => Auth::user()->getFullName(),
             'email' => Auth::user()->email,
             'subscription' => Auth::user()->client->subscription->type,
