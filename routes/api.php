@@ -19,8 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('auth', [UserController::class,'authenticate'])->name('login');
-
-Route::post('register', [UserController::class,'create']);
-
-Route::post('update', [UserController::class, 'update'])->middleware('auth');
+Route::controller(UserController::class)->group(function () {
+    Route::post('auth', 'authenticate')->name('login');
+    Route::post('register', 'create');
+    Route::post('update', 'update')->middleware('auth');
+});
